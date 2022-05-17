@@ -1,4 +1,4 @@
-package com.generation.educa.Model;
+package com.generation.educa.model;
 
 import java.util.List;
 
@@ -9,32 +9,52 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Entity
-@Table(name="tb_usuario")
+@Table(name = "tb_usuarios")
 public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;
-	
+	private Long id;
+
 	@NotNull
-	public String nome;
+	private String nome;
 	
+	@Schema(example = "email@email.com.br")
 	@NotNull
-	public String email_usuario;
-	
-	public String foto;
-	
+	@Email(message = "O usuário deve ser um email valido")
+	private String usuario;
+
 	@NotNull
-	public String senha;
+	private String senha;
+
+	private String foto;
 	
-	@OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)
-	@JsonIgnoreProperties ("usuario")
-	private List <Postagem> postagem;
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("usuario")
+	private List<Postagem> postagem;
+
+	
+
+	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+	}
+
+		
+	public Usuario() {
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -52,20 +72,12 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getEmail_usuario() {
-		return email_usuario;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setEmail_usuario(String email_usuario) {
-		this.email_usuario = email_usuario;
-	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getSenha() {
@@ -76,12 +88,23 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public List<Postagem> getPostagem() {
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public List<Postagem> getProduto() {
 		return postagem;
 	}
 
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-
+	
+	
+	
+	
 }
